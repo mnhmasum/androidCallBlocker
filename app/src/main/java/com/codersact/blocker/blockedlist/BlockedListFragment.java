@@ -23,19 +23,16 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-
 import com.codersact.blocker.R;
-import com.codersact.blocker.adapter.BlackListAdapter;
-import com.codersact.blocker.adapter.LogNumberAdapter;
 import com.codersact.blocker.adapter.BlockedAdapter;
-
+import com.codersact.blocker.adapter.LogNumberAdapter;
 import com.codersact.blocker.blacklist.BlackListFragment;
-import com.codersact.blocker.db.CommonDbMethod;
+import com.codersact.blocker.db.DataBaseUtil;
 import com.codersact.blocker.inbox.InboxService;
-import com.codersact.blocker.model.NumberData;
 import com.codersact.blocker.model.MobileData;
+import com.codersact.blocker.model.NumberData;
+
+import java.util.ArrayList;
 
 public class BlockedListFragment extends Fragment implements View.OnClickListener, BlockedListView {
     private RecyclerView.LayoutManager mLayoutManager;
@@ -45,11 +42,14 @@ public class BlockedListFragment extends Fragment implements View.OnClickListene
     private BlockedListPresenter blockedListPresenter;
     private FloatingActionButton floatingActionButton;
     private BlockedAdapter mAdapter;
+    private DataBaseUtil dataBaseUtil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_blocked_list, container, false);
+        dataBaseUtil = new DataBaseUtil(getActivity());
+        dataBaseUtil.open();
         initView(rootView);
         blockedListPresenter = new BlockedListPresenter(this, new BlockedListService());
         blockedListPresenter.getBlockedList();
@@ -153,7 +153,8 @@ public class BlockedListFragment extends Fragment implements View.OnClickListene
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CommonDbMethod(getActivity()).addToNumberBlacklist("Name", editText.getText().toString().trim());
+
+                //new CommonDbMethod(getActivity()).addToNumberBlacklist("Name", editText.getText().toString().trim());
                 dialog.dismiss();
                 blackListFragment();
             }
@@ -205,7 +206,8 @@ public class BlockedListFragment extends Fragment implements View.OnClickListene
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                new CommonDbMethod(getActivity()).addToNumberBlacklist(mobileDatas.get(position).getSmsThreadNo(), numberDatas.get(position).getSenderNumber());
+                dataBaseUtil.saveNewNumber("", mobileDatas.get(position).getSmsThreadNo(), numberDatas.get(position).getSenderNumber());
+                //new CommonDbMethod(getActivity()).addToNumberBlacklist(mobileDatas.get(position).getSmsThreadNo(), numberDatas.get(position).getSenderNumber());
                 dialog.dismiss();
                 blackListFragment();
                 //Toast.makeText(getActivity(), "Position" + numberDatas.get(position).getSenderNumber(), Toast.LENGTH_SHORT).show();

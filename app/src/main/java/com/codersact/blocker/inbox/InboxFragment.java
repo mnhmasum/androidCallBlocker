@@ -22,16 +22,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import com.codersact.blocker.R;
-import com.codersact.blocker.adapter.LogNumberAdapter;
 import com.codersact.blocker.adapter.BlockedAdapter;
-
+import com.codersact.blocker.adapter.LogNumberAdapter;
 import com.codersact.blocker.blacklist.BlackListFragment;
-import com.codersact.blocker.db.CommonDbMethod;
-import com.codersact.blocker.model.NumberData;
 import com.codersact.blocker.model.MobileData;
+import com.codersact.blocker.model.NumberData;
+
+import java.util.ArrayList;
 
 public class InboxFragment extends Fragment implements View.OnClickListener, InboxView {
     private RecyclerView.LayoutManager mLayoutManager;
@@ -156,7 +154,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Inb
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CommonDbMethod(getActivity()).addToNumberBlacklist("", editText.getText().toString().trim());
+                //new CommonDbMethod(getActivity()).addToNumberBlacklist("", editText.getText().toString().trim());
                 dialog.dismiss();
                 blackListFragment();
             }
@@ -208,7 +206,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Inb
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                new CommonDbMethod(getActivity()).addToNumberBlacklist(mobileDatas.get(position).getSmsThreadNo(), numberDatas.get(position).getSenderNumber());
+                //new CommonDbMethod(getActivity()).addToNumberBlacklist(mobileDatas.get(position).getSmsThreadNo(), numberDatas.get(position).getSenderNumber());
                 dialog.dismiss();
                 blackListFragment();
                 getActivity().setTitle("black list");

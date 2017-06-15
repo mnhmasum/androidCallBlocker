@@ -2,6 +2,8 @@ package com.codersact.blocker.main;
 
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -111,6 +113,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
                     } else if (recyclerView.getChildPosition(child) == 4) {
+                        //openDialogAbout("We use your contact permission for ", "", "OK")
+
+                        String url = "http://androidtime.net/call_blocker/privacy-policy.html";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+
+                    } else {
                         settingsFragment();
                         setTitle(navigationMenus.get(4).getMenuName());
                     }
@@ -153,6 +163,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         NavigationMenu navigationMenu3 = new NavigationMenu();
         navigationMenu3.setMenuName("About");
         navigationMenus.add(navigationMenu3);
+
+        NavigationMenu navigationMenu4 = new NavigationMenu();
+        navigationMenu4.setMenuName("Privacy policy");
+        navigationMenus.add(navigationMenu4);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationRecylerView = (RecyclerView) findViewById(R.id.listView);

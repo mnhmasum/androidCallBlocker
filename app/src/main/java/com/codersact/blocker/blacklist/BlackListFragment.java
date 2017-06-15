@@ -22,15 +22,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codersact.blocker.R;
 import com.codersact.blocker.adapter.BlackListAdapter;
 import com.codersact.blocker.adapter.LogNumberAdapter;
-import com.codersact.blocker.db.CommonDbMethod;
 import com.codersact.blocker.inbox.InboxService;
 import com.codersact.blocker.model.MobileData;
 import com.codersact.blocker.model.NumberData;
-import com.codersact.blocker.utility.UtilityMethod;
 
 import java.util.ArrayList;
 
@@ -193,6 +192,7 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
                 blackListPresenter.addNewBlackNumber("", editText.getText().toString().trim());
                 blackListPresenter.getBlackList();
                 dialog.dismiss();
+                Toast.makeText(getActivity(), "" + editText.getText().toString().trim() + " is added to the block list", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -242,10 +242,14 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                blackListPresenter.addNewBlackNumber("", numberDatas.get(position).getSenderNumber());
+                blackListPresenter.addNewBlackNumber("", numberDatas.get(position).getSenderNumber().trim());
                 blackListPresenter.getBlackList();
-                getActivity().setTitle("Black List");
                 dialog.dismiss();
+                Toast.makeText(getActivity(), "" + numberDatas.get(position).getSenderNumber().trim() + " is added to the block list", Toast.LENGTH_SHORT).show();
+//                blackListPresenter.addNewBlackNumber("", );
+//                blackListPresenter.getBlackList();
+//                getActivity().setTitle("Black List");
+//                dialog.dismiss();
             }
         });
 
@@ -281,6 +285,7 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
                 blackListPresenter.getBlackList();
                 getActivity().setTitle("Black List");
                 dialog.dismiss();
+                Toast.makeText(getActivity(), "" + arrayList.get(position).getSenderNumber() + " is added to the block list", Toast.LENGTH_SHORT).show();
 
             }
         });
