@@ -156,10 +156,10 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (which == 0) {
-                            openDialogInbox("Cancel");
+                            openDialogInbox();
 
                         } else if (which == 1) {
-                            openDialogLog("Cancel");
+                            openDialogLog();
 
                         } else if (which == 2) {
                             openManualEntryDialog("Number", "Add", "Cancel");
@@ -218,7 +218,7 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
         dialog.show();
     }
 
-    private void openDialogInbox(String cancelButton) {
+    private void openDialogInbox() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_inbox);
@@ -237,7 +237,7 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
         LogNumberAdapter inboxNumberAdapter = new LogNumberAdapter(getActivity(), numberDatas);
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
 
-        btnCancel.setText(cancelButton);
+        btnCancel.setText("Cancel");
         listView.setAdapter(inboxNumberAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -264,7 +264,7 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
         dialog.show();
     }
 
-    private void openDialogLog(String cancelButton) {
+    private void openDialogLog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_inbox);
@@ -275,7 +275,7 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
 
         LogNumberAdapter inboxNumberAdapter = new LogNumberAdapter(getActivity(), arrayList);
-        btnCancel.setText(cancelButton);
+        btnCancel.setText("Cancel");
         listView.setAdapter(inboxNumberAdapter);
         view.setText("Log");
 
@@ -300,5 +300,6 @@ public class BlackListFragment extends Fragment implements View.OnClickListener,
 
         dialog.show();
     }
+
 
 }

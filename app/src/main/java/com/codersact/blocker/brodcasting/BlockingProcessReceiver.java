@@ -3,19 +3,16 @@ package com.codersact.blocker.brodcasting;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.AudioManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.internal.telephony.ITelephony;
 import com.codersact.blocker.R;
 import com.codersact.blocker.db.DataBaseUtil;
 import com.codersact.blocker.main.MainActivity;
@@ -23,9 +20,6 @@ import com.codersact.blocker.main.MainActivity;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
-
-import com.android.internal.telephony.ITelephony;
 
 /**
  * Created by masum on 30/07/2015.
@@ -99,21 +93,6 @@ public class BlockingProcessReceiver extends BroadcastReceiver {
 
     protected void saveIncomingBlockedNumber(Context context, String name, String number, String formattedDate) {
         try {
-            /*SQLiteDatabase db;
-            db = context.openOrCreateDatabase("/data/data/com.codersact.blocker/databases/BlackListDB.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-            db.setVersion(1);
-            db.setLocale(Locale.getDefault());
-            db.setLockingEnabled(true);
-            db.execSQL("create table IF NOT EXISTS sms_blocked(id integer primary key autoincrement, names varchar(20), numbers varchar(20), body varchar(250))");
-
-            // Insert the "PhoneNumbers" into database-table, "SMS_BlackList"
-            ContentValues values = new ContentValues();
-            values.put("names", number);
-            values.put("numbers", number);
-            values.put("body", formattedDate);
-            db.insert("sms_blocked", null, values);
-            db.close();*/
-
             DataBaseUtil dataBaseUtil = new DataBaseUtil(context);
             dataBaseUtil.open();
             dataBaseUtil.saveBlockedNumber(formattedDate, name, number);
@@ -129,27 +108,6 @@ public class BlockingProcessReceiver extends BroadcastReceiver {
 
     private void checkBlackList(final String mobileNumber, final Long threadId, final Context context, String createdDate) {
         try {
-            //Create a cursor for the "SMS_BlackList" table
-            /*SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.codersact.blocker/databases/BlackListDB.db", null, SQLiteDatabase.OPEN_READWRITE);
-
-            //Check, if the "fromAddr" exists in the BlackListDB
-            Cursor c = db.query("SMS_BlackList", null, "numbers=?", new String[] { mobileNumber }, null, null, null);
-            Log.i("checkBlackList", "c.moveToFirst(): " + c.moveToFirst() + "  c.getCount(): " + c.getCount());
-
-            if (c.moveToFirst() && c.getCount() > 0) {
-                //AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-                //manager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                disconnectPhoneiTelephony(context); // call disconnect
-                saveIncomingBlockedNumber(context, "Call blocked ", mobileNumber, createdDate);
-                pushNotification(mobileNumber);
-
-                //manager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-
-                c.close();
-                db.close();
-                return;
-            }*/
-
             DataBaseUtil dataBaseUtil = new DataBaseUtil(context);
             dataBaseUtil.open();
             if(dataBaseUtil.isAlreadyExistNumber(mobileNumber)) {
